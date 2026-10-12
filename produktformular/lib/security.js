@@ -25,9 +25,12 @@ function safeEqualHex(a, b) {
 function loadEncryptionKey(dataDir) {
   const env = process.env.PF_ENCRYPTION_KEY;
   if (env) {
-    const key = /^[0-9a-f]{64}$/i.test(env) ? Buffer.from(env, 'hex') : Buffer.from(env, 'base64');
-    if (key.length !== 32) throw new Error('PF_ENCRYPTION_KEY muss 32 Byte lang sein (64 Hex-Zeichen oder Base64).');
-    return key;
+    if (/^[0-9a-f]{64}$/i.test(env)) return Buffer.from(env, 'hex');
+    const b64 = Buffer.from(env, 'base64');
+    if (b64.length === 32) return b64;
+    // Anderes Format (z. B. vom Hoster generierter Zufallswert): Schluessel ableiten
+    if (env.length < 32) throw new Error('PF_ENCRYPTION_KEY ist zu kurz (mind. 32 Zeichen).');
+    return crypto.createHash('sha256').update(env).digest();
   }
   const file = path.join(dataDir, 'secret.key');
   if (!fs.existsSync(file)) {

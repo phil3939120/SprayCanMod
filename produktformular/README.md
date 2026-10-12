@@ -21,14 +21,32 @@ Tests (API-Ende-zu-Ende: Upload, Validierung, Absenden, PDF, Admin, Zugriffsschu
 npm test
 ```
 
+## Online stellen: eigener Link für alle (Render)
+
+Im Repository liegt eine fertige Konfiguration (`render.yaml` im Hauptordner und `produktformular/Dockerfile`). Damit bekommen Sie eine öffentliche Adresse wie `https://produktformular-xxxx.onrender.com`. Jeder kann das Formular darüber **ohne Login** öffnen und ausfüllen. Nur der Admin-Bereich `/admin` bleibt passwortgeschützt.
+
+1. Konto auf [render.com](https://render.com) anlegen, am einfachsten mit „Sign in with GitHub“.
+2. Im Dashboard **New → Blueprint** wählen und das Repository `phil3939120/SprayCanMod` verbinden. Dabei den Branch mit dem Formular auswählen (oder ihn vorher in `main` mergen).
+3. Render liest `render.yaml` und legt den Dienst „produktformular“ mit 1 GB dauerhaftem Speicher an. Mit **Apply** bestätigen. Der erste Build dauert ein paar Minuten.
+4. Danach steht oben im Dienst der Link (`…onrender.com`). Diesen Link geben Sie weiter.
+5. Das Admin-Passwort hat Render automatisch erzeugt. Sie finden es im Dienst unter **Environment → PF_ADMIN_PASSWORD**. Damit melden Sie sich unter `https://…onrender.com/admin` an.
+
+Wichtig:
+- Dauerhafter Speicher (Disk) ist bei Render nur in kostenpflichtigen Tarifen enthalten, deshalb steht in `render.yaml` der Tarif „starter“. Im kostenlosen Tarif gehen Einreichungen und Dateien bei jedem Neustart verloren. Für dieses Formular ist er also nicht geeignet.
+- `PF_ENCRYPTION_KEY` dürfen Sie nach dem ersten Start nicht mehr ändern, sonst lassen sich gespeicherte Zugangsdaten nicht mehr entschlüsseln.
+- Eine eigene Domain (z. B. `formular.ihre-firma.de`) können Sie in Render unter **Settings → Custom Domains** eintragen.
+
+**Andere Anbieter:** Das `Dockerfile` läuft bei jedem Docker-Hoster (z. B. Railway oder ein eigener Server). Nötig sind ein dauerhaftes Volume unter `/var/data` sowie die Variablen `PF_SECURE_COOKIES=1`, `PF_TRUST_PROXY=1`, `PF_ADMIN_PASSWORD` und `PF_ENCRYPTION_KEY`.
+
 ## Konfiguration (Umgebungsvariablen)
 
 | Variable | Bedeutung | Standard |
 |---|---|---|
 | `PORT` / `HOST` | Port und Adresse des Servers | `3000` / `0.0.0.0` |
 | `PF_ADMIN_PASSWORD` | Admin-Passwort (mind. 10 Zeichen) | wird erzeugt |
-| `PF_ENCRYPTION_KEY` | 32-Byte-Schlüssel (64 Hex-Zeichen) für die Zugangsdaten | `data/secret.key` wird erzeugt |
+| `PF_ENCRYPTION_KEY` | Schlüssel für die Zugangsdaten (64 Hex-Zeichen oder ein Zufallswert mit mind. 32 Zeichen) | `data/secret.key` wird erzeugt |
 | `PF_DATA_DIR` | Ablage für Datenbank und Uploads | `./data` |
+| `PF_TRUST_PROXY` | `1` setzen hinter einem Reverse-Proxy (echte Client-IP für die Login-Sperre) | aus |
 | `PF_SECURE_COOKIES` | `1` setzen, wenn hinter HTTPS betrieben (Pflicht im Produktivbetrieb) | aus |
 | `PF_DRAFT_TTL_DAYS` | Nie abgesendete Entwürfe werden nach X Tagen gelöscht | `30` |
 

@@ -19,6 +19,8 @@ const DATA_DIR = path.resolve(process.env.PF_DATA_DIR || path.join(__dirname, 'd
 const UPLOAD_DIR = path.join(DATA_DIR, 'uploads');
 const PUBLIC_DIR = path.join(__dirname, 'public');
 const SECURE_COOKIES = process.env.PF_SECURE_COOKIES === '1';
+// Hinter einem Reverse-Proxy (Render, Railway, nginx …) die echte Client-IP aus X-Forwarded-For lesen
+const TRUST_PROXY = process.env.PF_TRUST_PROXY === '1';
 const DRAFT_TTL_DAYS = Number(process.env.PF_DRAFT_TTL_DAYS || 30);
 const ADMIN_SESSION_HOURS = 8;
 const MAX_JSON_BYTES = 5 * 1024 * 1024;
@@ -64,6 +66,7 @@ function audit(action, draftId, detail, req) {
 }
 
 function clientIp(req) {
+  if (TRUST_PROXY && req.headers['x-forwarded-for']) return String(req.headers['x-forwarded-for']).split(',')[0].trim();
   return req.socket.remoteAddress || '';
 }
 

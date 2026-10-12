@@ -1,0 +1,24 @@
+# Render-Blueprint fuer das Produktformular (Ordner produktformular/)
+services:
+  - type: web
+    name: produktformular
+    runtime: docker
+    rootDir: produktformular
+    dockerfilePath: ./Dockerfile
+    plan: starter            # dauerhafter Speicher (Disk) ist erst ab "starter" verfuegbar
+    healthCheckPath: /api/session
+    envVars:
+      - key: PF_SECURE_COOKIES
+        value: "1"
+      - key: PF_TRUST_PROXY
+        value: "1"
+      - key: PF_DATA_DIR
+        value: /var/data
+      - key: PF_ADMIN_PASSWORD
+        generateValue: true   # im Render-Dashboard unter "Environment" einsehbar
+      - key: PF_ENCRYPTION_KEY
+        generateValue: true   # NICHT nachtraeglich aendern, sonst sind Zugangsdaten nicht mehr lesbar
+    disk:
+      name: produktformular-daten
+      mountPath: /var/data
+      sizeGB: 1
