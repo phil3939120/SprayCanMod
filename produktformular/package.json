@@ -1,0 +1,12 @@
+{
+  "name": "produktformular",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Interaktives Produkt-Erfassungsformular mit Datei-Upload, SQLite-Speicherung und PDF-Export",
+  "main": "server.js",
+  "engines": { "node": ">=22.5" },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server.js",
+    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js"
+  }
+}

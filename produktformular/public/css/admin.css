@@ -1,0 +1,17 @@
+.login { max-width: 400px; margin: 48px auto; border: 1px solid var(--line); border-radius: 16px; padding: 28px; box-shadow: var(--shadow); display: grid; gap: 16px; }
+.login h1 { margin: 0; font-size: 22px; }
+.login p { margin: 0; color: var(--muted); font-size: 14px; }
+.admin-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+.admin-head h1 { margin: 0; font-size: 26px; letter-spacing: -0.02em; }
+.table-wrap { border: 1px solid var(--line); border-radius: var(--radius); overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { background: var(--surface); font-weight: 600; color: var(--muted); font-size: 13px; }
+tr:last-child td { border-bottom: 0; }
+tbody tr { cursor: pointer; }
+tbody tr:hover td { background: var(--surface); }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 600; }
+.empty { text-align: center; color: var(--muted); padding: 48px 16px; }
+.detail-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.cred { display: grid; gap: 6px; }
+.cred-values { background: var(--warning-soft); border: 1px solid #fde68a; border-radius: 8px; padding: 8px 10px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; white-space: pre-wrap; }

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Produkterfassung</title>
+  <meta name="description" content="Informationen und Anforderungen zu Ihren Produkten erfassen">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><span class="brand-mark">P</span> Produkterfassung</div>
+      <div class="save-status" id="save-status" aria-live="polite">Entwurf wird automatisch gespeichert</div>
+    </div>
+  </header>
+
+  <main class="container" id="app">
+    <div id="form-view">
+      <section class="intro">
+        <h1>Produkte erfassen</h1>
+        <p>Beantworten Sie die sechs Fragen für jedes Ihrer Produkte. Über „+ Produkt hinzufügen“ ergänzen Sie beliebig viele Produkte – sie stehen automatisch in allen Abschnitten zur Verfügung. Ihre Eingaben werden laufend zwischengespeichert.</p>
+      </section>
+
+      <nav class="progress" id="progress" aria-label="Fortschritt"></nav>
+      <div id="notices"></div>
+
+      <form id="form" novalidate autocomplete="off">
+        <div id="sections"></div>
+
+        <section class="final" aria-labelledby="final-title">
+          <h2 id="final-title">Abschließende Bemerkungen / Schlusswort</h2>
+          <p>Allgemeine Informationen, besondere Wünsche, zusätzliche Aufgaben oder sonstige Hinweise zum gesamten Formular.</p>
+          <label class="sr-only" for="final-comment">Abschließende Bemerkungen</label>
+          <textarea id="final-comment" class="textarea textarea-lg" data-bind="finalComment" placeholder="Ihre abschließenden Bemerkungen …"></textarea>
+        </section>
+
+        <div class="submit-area">
+          <button type="submit" class="btn btn-primary btn-lg" id="submit-btn">Formular absenden</button>
+          <small>Vor dem endgültigen Absenden sehen Sie eine Übersicht aller Angaben.</small>
+        </div>
+      </form>
+    </div>
+
+    <div id="done-view" hidden></div>
+  </main>
+
+  <div id="modal-root"></div>
+
+  <script src="/js/schema.js"></script>
+  <script src="/js/summary.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
